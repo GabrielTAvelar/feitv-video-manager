@@ -1,5 +1,5 @@
 
-package com.mycompany.projecttv;
+package com.mycompany.projecttv.controller;
 
 public class ProjectTv {
 
