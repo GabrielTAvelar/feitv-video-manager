@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.projecttv.model;
 
-/**
- *
- * @author feispgavelar
- */
-public class Serie {
+public class Serie extends Video{
+    private int temporadas;
     
+    public Serie(String titulo, int temporadas){
+        super(titulo);
+        this.temporadas = temporadas;
+    }
+    
+    @Override
+    public String GetTipo(){
+        return "Série";
+    }
+    public int getTemporadas(){
+        return temporadas;
+    }
 }

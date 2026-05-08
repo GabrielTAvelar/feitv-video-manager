@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.projecttv.model;
 
-/**
- *
- * @author feispgavelar
- */
-public class Filme {
+public class Filme extends Video {
+    private int duracao;
     
+    public Filme(String titulo, int duracao){
+        super(titulo);
+        this.duracao = duracao;
+    }
+    
+    @Override
+    public String getTipo(){
+        return "Filme";
+    }
+    public int getDuracao(){
+        return duracao;
+    }
 }
