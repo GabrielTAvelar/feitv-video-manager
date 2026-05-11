@@ -10,7 +10,7 @@ public class Serie extends Video{
     }
     
     @Override
-    public String GetTipo(){
+    public String getTipo(){
         return "Série";
     }
     public int getTemporadas(){
