@@ -1,28 +1,15 @@
 package com.mycompany.projecttv.model;
 
 public abstract class Video implements Situacao {
+    protected int id; // ADICIONE ISSO
     protected String titulo;
-    protected int curtidas;
 
-    public Video(String titulo) {
+    public Video(int id, String titulo) {
+        this.id = id;
         this.titulo = titulo;
-        this.curtidas = 0;
     }
 
-    public void curtir() {
-        this.curtidas++;
-    }
-
-    public void descurtir() {
-        if (this.curtidas > 0) {
-            this.curtidas--;
-        }
-    }
-
-    public String getTitulo() { 
-        return titulo;
-    }
-    public int getCurtidas() {
-        return curtidas; 
-    }
+    public int getId() { return id; } // ADICIONE O GETTER
+    public String getTitulo() { return titulo; }
+    
 }

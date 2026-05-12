@@ -1,31 +1,21 @@
-
 package com.mycompany.projecttv.controller;
 
+import com.mycompany.projecttv.dao.UsuarioDAO;
 import com.mycompany.projecttv.model.Usuario;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ControledoUsuario {
-    private static List<Usuario> usuariosFakeDB = new ArrayList<>();
-    
-    public boolean cadastrar(String nome, String login, String senha){
-        if (login.isEmpty() || senha.isEmpty()) return false;
-        
-        for (Usuario u : usuariosFakeDB){
-            if (u.getLogin().equals(login)) return false;
-        }
-        
-        usuariosFakeDB.add(new Usuario(nome, login, senha));
-        return true;    
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+    public boolean cadastrar(String nome, String login, String senha) {
+        if (nome.isEmpty() || login.isEmpty() || senha.isEmpty()) return false;
+        return usuarioDAO.cadastrar(nome, login, senha);
     }
-    
-    public boolean autenticar(String login, String senha){
-        for(Usuario u : usuariosFakeDB) {
-            if (u.getLogin().equals(login) && u.getSenha().equals(senha)){
-                return true;
-            }
-        }
-        return false;
+
+    public boolean autenticar(String login, String senha) {
+        return usuarioDAO.autenticar(login, senha);
     }
-    
+
+    public Usuario buscarUsuarioPeloLogin(String login) {
+        return usuarioDAO.buscarPorLogin(login);
+    }
 }

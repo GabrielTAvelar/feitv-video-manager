@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.projecttv.view;
 
-/**
- *
- * @author gabri
- */
 public class MainScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainScreen.class.getName());
@@ -35,9 +27,9 @@ public class MainScreen extends javax.swing.JFrame {
         txtAreaVideos = new javax.swing.JTextArea();
         btnCurtir = new javax.swing.JButton();
         btnDescurtir = new javax.swing.JButton();
-        btnFavoritar = new javax.swing.JButton();
         txtVideoSelecionado = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        btnMenuPlaylists = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,12 +46,10 @@ public class MainScreen extends javax.swing.JFrame {
         btnDescurtir.setText("Dislike");
         btnDescurtir.addActionListener(this::btnDescurtirActionPerformed);
 
-        btnFavoritar.setText("Favoritar");
-        btnFavoritar.addActionListener(this::btnFavoritarActionPerformed);
-
-        txtVideoSelecionado.setText("jTextField1");
-
         jLabel1.setText("Digite o nome do vídeo para curtir/descurtir:");
+
+        btnMenuPlaylists.setText("Ver playlists");
+        btnMenuPlaylists.addActionListener(this::btnMenuPlaylistsActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,8 +80,11 @@ public class MainScreen extends javax.swing.JFrame {
                                 .addComponent(btnCurtir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDescurtir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(128, 128, 128))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnFavoritar))))))
+                                .addComponent(btnMenuPlaylists, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(85, 85, 85))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,9 +105,10 @@ public class MainScreen extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCurtir)
-                            .addComponent(btnDescurtir)
-                            .addComponent(btnFavoritar))
-                        .addGap(28, 273, Short.MAX_VALUE))))
+                            .addComponent(btnDescurtir))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                        .addComponent(btnMenuPlaylists, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,63 +126,58 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-    String termo = txtBusca.getText();
-    
-    com.mycompany.projecttv.controller.VideoController videoController = new com.mycompany.projecttv.controller.VideoController();
-    
-    java.util.List<com.mycompany.projecttv.model.Video> resultados = videoController.buscar(termo);
-    
-    txtAreaVideos.setText("");
-    if (resultados.isEmpty()) {
-        txtAreaVideos.setText("Nenhum vídeo encontrado.");
-    } else {
-        for (com.mycompany.projecttv.model.Video v : resultados) {
-            txtAreaVideos.append("Título: " + v.getTitulo() + " | Curtidas: " + v.getCurtidas() + "\n");
+        String termo = txtBusca.getText();
+        
+        com.mycompany.projecttv.controller.VideoController videoController = new com.mycompany.projecttv.controller.VideoController();
+        java.util.List<com.mycompany.projecttv.model.Video> resultados = videoController.buscar(termo);
+        
+        txtAreaVideos.setText("");
+        if (resultados.isEmpty()) {
+            txtAreaVideos.setText("Nenhum vídeo encontrado");
+        } else {
+            for (com.mycompany.projecttv.model.Video v : resultados) {
+                txtAreaVideos.append("Título: " + v.getTitulo() + "\n");
+            }
         }
-    }    //--------------------------------- Botão de Buscar
+     //--------------------------------- Botão de Buscar
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCurtirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCurtirActionPerformed
-String nomeParaCurtir = txtVideoSelecionado.getText();
-    com.mycompany.projecttv.controller.VideoController videoController = new com.mycompany.projecttv.controller.VideoController();
+        String titulo = txtVideoSelecionado.getText();
+        VotoDAO vDao = new VotoDAO();
     
-    java.util.List<com.mycompany.projecttv.model.Video> encontrados = videoController.buscar(nomeParaCurtir);
+        vDao.registrarVoto(Sessao.getUsuario().getId(), titulo, true);
     
-    if (!encontrados.isEmpty()) {
-        com.mycompany.projecttv.model.Video v = encontrados.get(0);
-        v.curtir();
-        javax.swing.JOptionPane.showMessageDialog(this, "Você curtiu " + v.getTitulo());
-        
-        btnBuscarActionPerformed(evt); 
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Vídeo não encontrado para curtir.");
-        }     
+        int novoSaldo = vDao.getSaldoVotos(titulo);
+        lblContadorVotos.setText("Votos: " + novoSaldo);
+}      
     }//GEN-LAST:event_btnCurtirActionPerformed
 
-    private void btnFavoritarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFavoritarActionPerformed
-    String nomeParaFavoritar = txtVideoSelecionado.getText();
-    javax.swing.JOptionPane.showMessageDialog(this, nomeParaFavoritar + " adicionado aos favoritos");
-    //----------------------------------------- botão de favoritar
-    }//GEN-LAST:event_btnFavoritarActionPerformed
-
     private void btnDescurtirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescurtirActionPerformed
-String nomeParaDescurtir = txtVideoSelecionado.getText();
-    com.mycompany.projecttv.controller.VideoController videoController = new com.mycompany.projecttv.controller.VideoController();
-    
-    // Busca o vídeo
-    java.util.List<com.mycompany.projecttv.model.Video> encontrados = videoController.buscar(nomeParaDescurtir);
-    
-    if (!encontrados.isEmpty()) {
-        com.mycompany.projecttv.model.Video v = encontrados.get(0);
-        v.descurtir(); // Chama o método que reduz as curtidas
-        javax.swing.JOptionPane.showMessageDialog(this, "Você descurtiu " + v.getTitulo());
+        String nomeParaDescurtir = txtVideoSelecionado.getText();
+        com.mycompany.projecttv.controller.VideoController videoController = new com.mycompany.projecttv.controller.VideoController();
         
-        btnBuscarActionPerformed(evt); 
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Vídeo não encontrado.");
-    }
-    //-------------------------------- Botão de deslike
+        java.util.List<com.mycompany.projecttv.model.Video> encontrados = videoController.buscar(nomeParaDescurtir);
+        
+        if (!encontrados.isEmpty()) {
+            com.mycompany.projecttv.model.Video v = encontrados.get(0);
+            
+            // CORREÇÃO: O v.descurtir() foi removido.
+            javax.swing.JOptionPane.showMessageDialog(this, "Ação de descurtir registrada para: " + v.getTitulo());
+            
+            btnBuscarActionPerformed(evt); 
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Vídeo não encontrado");
+        }
+    
+        //-------------------------------- Botão de deslike
     }//GEN-LAST:event_btnDescurtirActionPerformed
+
+    private void btnMenuPlaylistsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuPlaylistsActionPerformed
+       PlaylistScreen telaPlaylists = new PlaylistScreen();
+       
+       telaPlaylists.setVisible(true);
+    }//GEN-LAST:event_btnMenuPlaylistsActionPerformed
 
 
     public static void main(String args[]) {
@@ -217,7 +206,7 @@ String nomeParaDescurtir = txtVideoSelecionado.getText();
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCurtir;
     private javax.swing.JButton btnDescurtir;
-    private javax.swing.JButton btnFavoritar;
+    private javax.swing.JButton btnMenuPlaylists;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

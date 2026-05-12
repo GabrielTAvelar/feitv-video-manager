@@ -63,13 +63,17 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                                   <Component id="btnCurtir" min="-2" pref="76" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnDescurtir" min="-2" pref="76" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnFavoritar" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnMenuPlaylists" min="-2" pref="151" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -99,9 +103,10 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnCurtir" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnDescurtir" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnFavoritar" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="28" pref="273" max="32767" attributes="0"/>
+                          <EmptySpace pref="197" max="32767" attributes="0"/>
+                          <Component id="btnMenuPlaylists" min="-2" pref="55" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -150,23 +155,20 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDescurtirActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnFavoritar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Favoritar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFavoritarActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JTextField" name="txtVideoSelecionado">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Digite o nome do v&#xed;deo para curtir/descurtir:"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnMenuPlaylists">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ver playlists"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuPlaylistsActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

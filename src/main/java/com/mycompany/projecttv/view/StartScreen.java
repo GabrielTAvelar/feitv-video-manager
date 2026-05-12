@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.projecttv.view;
 
-/**
- *
- * @author gabri
- */
 public class StartScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(StartScreen.class.getName());
@@ -152,45 +144,30 @@ public class StartScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        String login = txtNome.getText();
+        String login = txtLogin.getText(); 
         String senha = new String(txtSenha.getPassword());
 
         com.mycompany.projecttv.controller.ControledoUsuario controller = new com.mycompany.projecttv.controller.ControledoUsuario();
 
         if (controller.autenticar(login, senha)) {
+            com.mycompany.projecttv.model.Usuario u = controller.buscarUsuarioPeloLogin(login); 
+
+            com.mycompany.projecttv.model.Sessao.setUsuario(u);
+
             MainScreen telaPrincipal = new MainScreen();
             telaPrincipal.setVisible(true);
             telaPrincipal.setLocationRelativeTo(null);
-        
-            this.dispose(); // Fecha a tela de login
-        } 
-        else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos!");
-        }        // --------------- Botão para entrar
+            this.dispose(); 
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos!");
+        }
+        // --------------- Botão para entrar
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new StartScreen().setVisible(true));
     }
 
