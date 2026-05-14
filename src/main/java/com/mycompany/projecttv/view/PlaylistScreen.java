@@ -50,6 +50,8 @@ public class PlaylistScreen extends javax.swing.JFrame {
         txtAreaStatus.setRows(5);
         jScrollPane1.setViewportView(txtAreaStatus);
 
+        txtNomeVideo.addActionListener(this::txtNomeVideoActionPerformed);
+
         btnCriarPlaylist.setText("Criar Playlist");
         btnCriarPlaylist.addActionListener(this::btnCriarPlaylistActionPerformed);
 
@@ -148,10 +150,23 @@ public class PlaylistScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCriarPlaylistActionPerformed
 
     private void btnApagarPlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarPlaylistActionPerformed
-        String nome = txtNomeLista.getText();
-        new PlaylistController().excluirLista(nome);
-        txtAreaStatus.append("Playlist'" + nome +"' removida.\n");
-        txtNomeLista.setText("");
+    String nome = txtNomeLista.getText();
+    if (nome.isEmpty()) {
+        return;
+    }
+    PlaylistController pc = new PlaylistController();
+
+    if (pc.excluirLista(nome)) {
+        txtAreaStatus.append(
+            "Playlist '" + nome + "' removida com sucesso.\n"
+        );
+        atualizarListaNaTela();
+    } else {
+        txtAreaStatus.append(
+            "Erro: Playlist '" + nome + "' não encontrada ou não pertence a você.\n"
+        );
+    }
+    txtNomeLista.setText("");
        // -------------------- botao de apagarplaylisy
     }//GEN-LAST:event_btnApagarPlaylistActionPerformed
 
@@ -180,6 +195,10 @@ public class PlaylistScreen extends javax.swing.JFrame {
         txtAreaStatus.append("Erro: Vídeo não encontrado nesta lista.\n");
     }        // T------------------ remover video
     }//GEN-LAST:event_btnRemoverVideoActionPerformed
+
+    private void txtNomeVideoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeVideoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeVideoActionPerformed
 
     /**
      * @param args the command line arguments
