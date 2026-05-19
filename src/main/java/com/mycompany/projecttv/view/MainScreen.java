@@ -1,12 +1,12 @@
 package com.mycompany.projecttv.view;
 
-public class MainScreen extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainScreen.class.getName());
+import com.mycompany.projecttv.controller.VideoController;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-    /**
-     * Creates new form MainScreen
-     */
+
+public class MainScreen extends javax.swing.JFrame {
+
     public MainScreen() {
         initComponents();
     }
@@ -110,43 +110,13 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String termo = txtBusca.getText();
-        
-        com.mycompany.projecttv.controller.VideoController videoController = new com.mycompany.projecttv.controller.VideoController();
-        java.util.List<com.mycompany.projecttv.model.Video> resultados = videoController.buscar(termo);
-        
-        txtAreaVideos.setText("");
-        if (resultados.isEmpty()) {
-            txtAreaVideos.setText("Nenhum vídeo encontrado");
-        } else {
-            for (com.mycompany.projecttv.model.Video v : resultados) {
-                txtAreaVideos.append("Título: " + v.getTitulo() + "\n");
-            }
-        }
+        controller.buscaDosVideos();
      //--------------------------------- Botão de Buscar
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCurtirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCurtirActionPerformed
-        String titulo = txtVideoSelecionado.getText();
-    
-        com.mycompany.projecttv.controller.VideoController vc = new com.mycompany.projecttv.controller.VideoController();
-        com.mycompany.projecttv.model.Video videoSelecionado = vc.buscarPorTitulo(titulo);
-    
-        if (videoSelecionado != null) {
-            int usuarioId = com.mycompany.projecttv.model.Sessao.getUsuario().getId();
-            int videoId = videoSelecionado.getId();
-        
-            com.mycompany.projecttv.dao.VotoDAO vDao = new com.mycompany.projecttv.dao.VotoDAO();
-        
-            vDao.alternarLike(usuarioId, videoId);
-        
-            int totalLikes = vDao.contarLikes(videoId);
-            javax.swing.JOptionPane.showMessageDialog(this, titulo + " agora possui " + totalLikes + " curtida(s)!");
-        
-        } 
-        else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Vídeo não encontrado. Verifique o nome digitado.");
-        }  
+        controller.Curtir();
+        //------------------------------ Botão de Curtir
     }//GEN-LAST:event_btnCurtirActionPerformed
 
     private void btnMenuPlaylistsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuPlaylistsActionPerformed
@@ -172,4 +142,18 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextField txtBusca;
     private javax.swing.JTextField txtVideoSelecionado;
     // End of variables declaration//GEN-END:variables
+    private VideoController controller = new VideoController(this);
+
+    public JTextArea getTxtAreaVideos() {
+        return txtAreaVideos;
+    }
+
+    public JTextField getTxtBusca() {
+        return txtBusca;
+    }
+
+    public JTextField getTxtVideoSelecionado() {
+        return txtVideoSelecionado;
+    }
+    
 }

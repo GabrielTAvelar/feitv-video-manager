@@ -1,7 +1,7 @@
 package com.mycompany.projecttv.model;
 
 public abstract class Video implements Situacao {
-    protected int id; // ADICIONE ISSO
+    protected int id;
     protected String titulo;
 
     public Video(int id, String titulo) {
@@ -9,7 +9,7 @@ public abstract class Video implements Situacao {
         this.titulo = titulo;
     }
 
-    public int getId() { return id; } // ADICIONE O GETTER
+    public int getId() { return id; }
     public String getTitulo() { return titulo; }
     
 }

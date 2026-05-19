@@ -1,4 +1,3 @@
-
 package com.mycompany.projecttv.model;
 
 public interface Situacao {
