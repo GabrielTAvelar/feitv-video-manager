@@ -1,6 +1,6 @@
 # FeiTV - Gerenciador de Vídeos e Playlists - Projeto FEI
 
-Este projeto é uma aplicação Desktop em Java para gerenciamento de vídeos e playlists, desenvolvido com foco na aplicação de padrões de projetos e boas práticas de estruturação de código.
+Este projeto é uma aplicação Desktop in Java para gerenciamento de vídeos e playlists, desenvolvido com foco na aplicação de padrões de projetos e boas práticas de estruturação de código.
 
 ## Informações Acadêmicas
 - Autor: Gabriel Trindade Avelar
@@ -53,124 +53,45 @@ A aplicação faz uso de um banco de dados relacional com a seguinte lógica de 
 - Java Development Kit (JDK) instalado.
 - Maven instalado.
 - Banco de Dados configurado e rodando localmente (atualizar credenciais na classe `Conexao.java`).
+
+## 📊 Diagrama de Classes (UML)
+O diagrama abaixo representa a arquitetura do sistema e os relacionamentos entre as camadas View, Controller, Model e DAO.
+
+```mermaid
 classDiagram
-    %% Camada de View
     namespace View {
-        class MainScreen {
-            -JButton btnPlaylists
-            -JButton btnSair
-            +main(args: String[])$ void
-        }
-        class PlaylistScreen {
-            -PlaylistController pc
-            -JTextField txtNomeLista
-            -JTextField txtNomeVideo
-            -JTextArea txtAreaPlaylists
-            +atualizarListaNaTela() void
-            +btnAdicionarActionPerformed() void
-        }
-        class StartScreen {
-            -JTextField txtEmail
-            -JPasswordField txtSenha
-            +btnLoginActionPerformed() void
-        }
+        class MainScreen
+        class PlaylistScreen
+        class StartScreen
     }
-
-    %% Camada de Controller
     namespace Controller {
-        class PlaylistController {
-            -PlaylistDAO dao
-            +criarLista(nome: String) void
-            +adicionarVideoPeloNome(lista: String, video: String) boolean
-            +excluirLista(nome: String) boolean
-            +listarNomesMinhasPlaylists() List~String~
-        }
-        class VideoController {
-            -VideoDAO vdao
-            +listarTodos() List~Video~
-            +buscarVideo(titulo: String) Video
-        }
-        class ControledoUsuario {
-            -UsuarioDAO udao
-            +login(email: String, senha: String) boolean
-        }
+        class PlaylistController
+        class VideoController
+        class ControledoUsuario
     }
-
-    %% Camada de Model
     namespace Model {
-        class Video {
-            -int id
-            -String titulo
-            -String duracao
-            +getTitulo() String
-        }
-        class Filme {
-            -String diretor
-            +getDiretor() String
-        }
-        class Serie {
-            -int temporadas
-            +getTemporadas() int
-        }
-        class Usuario {
-            -int id
-            -String nome
-            -String email
-            -String senha
-            +getId() int
-        }
-        class ListaReproducao {
-            -int id
-            -String nome
-            -List~Video~ videos
-        }
-        class Sessao {
-            <<static>>
-            -Usuario usuarioLogado
-            +getUsuario()$ Usuario
-            +setUsuario(u: Usuario)$ void
-        }
-        class Situacao {
-            <<enumeration>>
-            ATIVO
-            INATIVO
-            BLOQUEADO
-        }
+        class Video
+        class Filme
+        class Serie
+        class Usuario
+        class Sessao
     }
-
-    %% Camada de DAO
     namespace DAO {
-        class Conexao {
-            +getConexao()$ Connection
-        }
-        class PlaylistDAO {
-            +salvarPlaylist(n: String, id: int) void
-            +adicionarVideo(l: String, v: String, id: int) boolean
-            +listarPlaylists(id: int) List~String~
-        }
-        class UsuarioDAO {
-            +autenticar(e: String, s: String) Usuario
-        }
-        class VideoDAO {
-            +buscarPorNome(n: String) Video
-        }
-        class VotoDAO {
-            +votar(v: Video, u: Usuario) void
-        }
+        class Conexao
+        class PlaylistDAO
+        class UsuarioDAO
+        class VideoDAO
     }
 
-    %% Relacionamentos
-    Filme --|> Video : Herança
-    Serie --|> Video : Herança
-    
-    PlaylistScreen ..> PlaylistController : Dependência
-    PlaylistController ..> PlaylistDAO : Dependência
-    PlaylistController ..> Sessao : Consulta
-    
-    MainScreen ..> VideoController : Dependência
-    StartScreen ..> ControledoUsuario : Dependência
+    Filme --|> Video
+    Serie --|> Video
+    PlaylistScreen ..> PlaylistController
+    PlaylistController ..> PlaylistDAO
+    StartScreen ..> ControledoUsuario
+    PlaylistDAO ..> Conexao
+    UsuarioDAO ..> Conexao
+    VideoDAO ..> Conexao
     
     PlaylistDAO ..> Conexao : Usa
     UsuarioDAO ..> Conexao : Usa
     VideoDAO ..> Conexao : Usa
-  
